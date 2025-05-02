@@ -1,0 +1,90 @@
+# Faith Green
+# 2025-05-02
+# P5HW - Emoji Adventure: Escape the Dungeon
+# A fun dungeon escape game where the player makes choices to avoid traps and find treasure.
+# The game uses functions, loops, if/else logic, dictionary characters, and a little bit of randomness!
+
+import random  # imported library
+
+def create_character():
+    """
+    Returns a dictionary representing the player's character.
+    """
+    name = input("What is your adventurer's name? 🧝‍♂️: ")
+    character = {
+        "name": name,
+        "health": 100,
+        "emoji": "🧙‍♂️"
+    }
+    print(f"{character['emoji']} Welcome, {character['name']}! Your quest begins now...")
+    return character
+
+def choose_door():
+    """
+    Prompts the user to choose a door and returns the door number (int).
+    """
+    print("\nYou face three mysterious doors... 🚪🚪🚪")
+    print("1 - A door with glowing runes 🔮")
+    print("2 - A dark wooden door creaking ominously 🌑")
+    print("3 - A bright red door with smoke coming from underneath 🔥")
+    choice = input("Which door do you choose (1, 2, or 3)? ")
+    
+    while choice not in ['1', '2', '3']:
+        choice = input("Invalid choice. Please pick 1, 2, or 3: ")
+    
+    return int(choice)
+
+def encounter(character, door_number):
+    """
+    Based on the door number, resolve an encounter.
+    Reduces health or gives treasure.
+    """
+    print(f"\n{character['emoji']} {character['name']} enters door {door_number}...")
+
+    if door_number == 1:
+        print("✨ You found a healing fountain! You gain 20 health. ❤️")
+        character['health'] += 20
+    elif door_number == 2:
+        print("💀 A trap! You lose 30 health.")
+        character['health'] -= 30
+    elif door_number == 3:
+        print("🔥 A fire-breathing dragon! You lose 50 health.")
+        character['health'] -= 50
+
+    if character['health'] <= 0:
+        print(f"☠️ Oh no! {character['name']} has perished in the dungeon.")
+        return False
+    else:
+        print(f"💪 Current health: {character['health']}")
+        return True
+
+def play_game():
+    """
+    Contains the main game loop.
+    """
+    player = create_character()
+    rounds = 0
+
+    while player['health'] > 0 and rounds < 3:
+        door = choose_door()
+        alive = encounter(player, door)
+        if not alive:
+            break
+        rounds += 1
+    
+    if player['health'] > 0:
+        print(f"\n🎉 Congrats {player['name']}! You've escaped the dungeon alive! 🏆")
+    else:
+        print(f"\nGame over, {player['name']}... Better luck next time.")
+
+def main():
+    """
+    Main function to start the game.
+    """
+    print("🌟 Welcome to 'Emoji Adventure: Escape the Dungeon!' 🌟")
+    play_game()
+    print("Thanks for playing! 🎮")
+
+# Call to main function
+if __name__ == "__main__":
+    main()
